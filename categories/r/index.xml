@@ -7,8 +7,188 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Christopher Hopkinson</copyright>
-    <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 29 Apr 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="/categories/r/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>DTHelper</title>
+      <link>/post/dthelper/</link>
+      <pubDate>Sat, 29 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/dthelper/</guid>
+      <description>&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/datatables-css/datatables-crosstalk.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/datatables-binding/datatables.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/dt-core/css/jquery.dataTables.min.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;link href=&#34;/rmarkdown-libs/dt-core/css/jquery.dataTables.extra.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/dt-core/js/jquery.dataTables.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/crosstalk/css/crosstalk.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/crosstalk/js/crosstalk.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/jquery-sparkline/jquery.sparkline.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/jquery-sparkline/jquery.sparkline.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/sparkline-binding/sparkline.js&#34;&gt;&lt;/script&gt;
+
+&lt;div id=&#34;dthelper-helps-you&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;DTHelper helps you&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Add Sparklines to DT datatables&lt;/li&gt;
+&lt;li&gt;Add Trend Arrows to DT datatables&lt;/li&gt;
+&lt;li&gt;Add basic tooltips&lt;/li&gt;
+&lt;li&gt;Add split bar conditional formatting&lt;/li&gt;
+&lt;li&gt;Do a few other little things&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;adding-sparklines&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Adding Sparklines&lt;/h2&gt;
+&lt;p&gt;First you need to first install.packages(“sparkline”).&lt;/p&gt;
+&lt;p&gt;DTHelper helps you embed sparklines into you datatables. Example:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
+library(DT)
+library(DTHelper)
+library(sparkline)
+
+# create a data set using data.table
+x &amp;lt;- data.table(week_no = c(rep(c(1:10),3)), 
+                col1 = c(1:30), 
+                col2 = c(21:50),
+                col3 = round(runif(30, min = 0, max = 30),0),
+                grp = c(rep(&amp;quot;a&amp;quot;,10), rep(&amp;quot;b&amp;quot;,10), rep(&amp;quot;c&amp;quot;,10)))
+
+head(x)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    week_no col1 col2 col3 grp
+## 1:       1    1   21    7   a
+## 2:       2    2   22   28   a
+## 3:       3    3   23    1   a
+## 4:       4    4   24    7   a
+## 5:       5    5   25    8   a
+## 6:       6    6   26   12   a&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A cell in a table usually has 1 value, a sparkline requires a sequence of values. using DTHelper we can create a listcolumn in our data.table based on previous week_no:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Order the data by week
+x &amp;lt;- x[order(week_no, decreasing = FALSE)]
+
+# Use the DTHelper lag function
+# Note the additional list() when using a by reference call
+x[, col1_lag := list(dt_list_of_lags(col1, lags_x = c(0:5))), by = grp]
+x[, col1_lagb := list(dt_list_of_lags(col1, lags_x = c(0:3))), by = grp]
+x[, col_stack_lag := list(dt_list_of_lags_2(col1, col2, lags_x = c(0:4))), by = grp]
+
+head(x)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    week_no col1 col2 col3 grp col1_lag col1_lagb col_stack_lag
+## 1:       1    1   21    7   a        1         1          1:21
+## 2:       1   11   31   26   b       11        11         11:31
+## 3:       1   21   41   23   c       21        21         21:41
+## 4:       2    2   22   28   a      2,1       2,1     2:22,1:21
+## 5:       2   12   32    9   b    12,11     12,11   12:32,11:31
+## 6:       2   22   42   22   c    22,21     22,21   22:42,21:41&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now create a datatable with a sparkline:&lt;/p&gt;
+&lt;iframe seamless src=&#34;../dthelperd1/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;div id=&#34;adding-trend-arrows-and-basic-tooltips&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Adding Trend Arrows and Basic Tooltips&lt;/h2&gt;
+&lt;p&gt;DTHelper helps you add trend arrows to your DT datatables. Example:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create a data set using data.table
+x &amp;lt;- data.table(week_no = c(rep(c(1:10),3)), 
+                col1 = c(1:30), 
+                col2 = c(21:50),
+                col3 = round(runif(30, min = 0, max = 30),0),
+                grp = c(rep(&amp;quot;a&amp;quot;,10), rep(&amp;quot;b&amp;quot;,10), rep(&amp;quot;c&amp;quot;,10)))
+
+# create a trend column based on lagged values
+x &amp;lt;- x[order(week_no, decreasing = FALSE)]
+x[, col3_trend := least_squares_over_lags(col3, c(0:4)), by = grp]
+x[, col3_trend_arrow := &amp;quot;duntmatter&amp;quot;]
+x[, col3_tooltip := ifelse(col3_trend &amp;lt; 0, &amp;quot;bad&amp;quot;, &amp;quot;good&amp;quot;)]
+
+d2 &amp;lt;- DT::datatable(x,
+                    rownames = FALSE,
+                    options = list(dom = &amp;quot;t&amp;quot;,
+                                   paging = FALSE)) %&amp;gt;% 
+  formatArrow(columns = &amp;quot;col3_trend_arrow&amp;quot;, valueColumns = &amp;quot;col3_trend&amp;quot;, titleColumn = &amp;quot;col3_tooltip&amp;quot;) %&amp;gt;% 
+  formatTooltip(columns = &amp;quot;col1&amp;quot;, titleColumn = &amp;quot;col3_tooltip&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe seamless src=&#34;../dthelperd2/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;div id=&#34;some-generic-formatting-options&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Some generic formatting options&lt;/h2&gt;
+&lt;p&gt;DTHelper has a generic column formatter. Example:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create a data set using data.table
+x &amp;lt;- data.table(week_no = c(1:10), 
+                col1 = c(1:10), 
+                col2 = c(21:30),
+                col3 = round(runif(10, min = 0, max = 30),0),
+                grp = c(rep(&amp;quot;a&amp;quot;,10)))
+
+d3 &amp;lt;- DT::datatable(x,
+                    rownames = FALSE,
+                    filter = &amp;quot;top&amp;quot;,
+                    options = list(dom = &amp;quot;t&amp;quot;,
+                                   paging = FALSE)) %&amp;gt;% 
+  formatColDef(c(&amp;quot;col1&amp;quot;), orderable = FALSE) %&amp;gt;% 
+  formatColDef(c(&amp;quot;col2&amp;quot;), visible = FALSE) %&amp;gt;% 
+  formatColDef(c(&amp;quot;week_no&amp;quot;), searchable = FALSE, width = &amp;quot;20%&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe seamless src=&#34;../dthelperd3/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;div id=&#34;adding-split-bar-conditional-format&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Adding Split Bar Conditional Format&lt;/h2&gt;
+&lt;p&gt;DTHelper provides extra conditional formatting functions that can be used within the existing DT functions. Example:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create a data set using data.table
+x &amp;lt;- data.table(week_no = c(rep(c(1:10),2)), 
+                col1 = c(1:20), 
+                col2 = c(21:40),
+                col3 = round(runif(20, min = 0, max = 20),0),
+                grp = c(rep(&amp;quot;a&amp;quot;,10), rep(&amp;quot;b&amp;quot;,10)))
+
+# Create a datatable with some conditional formatting
+d4 &amp;lt;- 
+  DT::datatable(x,
+                rownames = FALSE,
+                options = list(
+                  paging = FALSE)
+                ) %&amp;gt;% 
+  DT::formatStyle(c(&amp;quot;week_no&amp;quot;), 
+                  valueColumns = &amp;quot;col1&amp;quot;,
+                  background = styleColorBarStack(x$col1, &amp;quot;#FFC9C9&amp;quot;, &amp;quot;#7CEBB2&amp;quot;, min_range = min(x$col1), max_range = max(x$col1)),
+                  backgroundSize = &amp;#39;98% 78%&amp;#39;,
+                  backgroundRepeat = &amp;#39;no-repeat&amp;#39;,
+                  backgroundPosition = &amp;#39;center&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe seamless src=&#34;../dthelperd4/index.html&#34; width=&#34;100%&#34; height=&#34;1000&#34;&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>R Getting More From datatables DT</title>
+      <link>/post/r-getting-more-from-datatables-dt/</link>
+      <pubDate>Thu, 20 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-getting-more-from-datatables-dt/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;The &lt;a href=&#34;https://rstudio.github.io/DT/&#34;&gt;DT&lt;/a&gt; package is an R package built on top of the javascript library &lt;a href=&#34;https://datatables.net/&#34;&gt;datatables&lt;/a&gt; by the RStudio team. They can be used in RMarkdown and Shiny to create interactive tables. If you want to learn the basics, there are plenty of tutorials. The DT R package allows us to write R code to generate the HTML widgets. The package manages to surface much of the functionality of the javascript library and, with a little additional javascript, can be extended further. From a data visualisation perspective, this flexibility creates an opportunity. We can weave a striking amount of information into a single table while keeping it neat and readable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-will-be-covered-in-this-series&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;What will be covered in this series&lt;/h1&gt;
+&lt;p&gt;The objective is to get to something that looks like this:&lt;/p&gt;
+&lt;p&gt;The subjects to cover are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Conditional Formatting of text&lt;/li&gt;
+&lt;li&gt;Data bars and customised stacked databars&lt;/li&gt;
+&lt;li&gt;Sparklines&lt;/li&gt;
+&lt;li&gt;Tooltips&lt;/li&gt;
+&lt;li&gt;crosstalk - allowing datatables to interact with each other&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Hello R Markdown</title>

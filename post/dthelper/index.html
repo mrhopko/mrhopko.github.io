@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.20.2" />
+  <meta name="author" content="Chris Hopkinson">
+  <meta name="description" content="Analyst">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Flirting With Data">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Flirting With Data">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/dthelper/">
+
+  
+
+  <title>DTHelper | Flirting With Data</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Flirting With Data</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+  <div class="article-container">
+    <h1 itemprop="name">DTHelper</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2017-04-29 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Sat, Apr 29, 2017
+    </time>
+  </span>
+
+  
+  
+  
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/data-visualisation">Data Visualisation</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/r">R</a
+    >, 
+    
+    <a href="/tags/dt">DT</a
+    >, 
+    
+    <a href="/tags/datatables">datatables</a
+    >, 
+    
+    <a href="/tags/r-markdown">R Markdown</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fdthelper%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=DTHelper&amp;url=%2fpost%2fdthelper%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fdthelper%2f&amp;title=DTHelper"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fdthelper%2f&amp;title=DTHelper"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=DTHelper&amp;body=%2fpost%2fdthelper%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/datatables-binding/datatables.js"></script>
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/dt-core/js/jquery.dataTables.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/jquery-sparkline/jquery.sparkline.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/jquery-sparkline/jquery.sparkline.js"></script>
+<script src="/rmarkdown-libs/sparkline-binding/sparkline.js"></script>
+
+<div id="dthelper-helps-you" class="section level2">
+<h2>DTHelper helps you</h2>
+<ul>
+<li>Add Sparklines to DT datatables</li>
+<li>Add Trend Arrows to DT datatables</li>
+<li>Add basic tooltips</li>
+<li>Add split bar conditional formatting</li>
+<li>Do a few other little things</li>
+</ul>
+</div>
+<div id="adding-sparklines" class="section level2">
+<h2>Adding Sparklines</h2>
+<p>First you need to first install.packages(“sparkline”).</p>
+<p>DTHelper helps you embed sparklines into you datatables. Example:</p>
+<pre class="r"><code>library(data.table)
+library(DT)
+library(DTHelper)
+library(sparkline)
+
+# create a data set using data.table
+x &lt;- data.table(week_no = c(rep(c(1:10),3)), 
+                col1 = c(1:30), 
+                col2 = c(21:50),
+                col3 = round(runif(30, min = 0, max = 30),0),
+                grp = c(rep(&quot;a&quot;,10), rep(&quot;b&quot;,10), rep(&quot;c&quot;,10)))
+
+head(x)</code></pre>
+<pre><code>##    week_no col1 col2 col3 grp
+## 1:       1    1   21    7   a
+## 2:       2    2   22   28   a
+## 3:       3    3   23    1   a
+## 4:       4    4   24    7   a
+## 5:       5    5   25    8   a
+## 6:       6    6   26   12   a</code></pre>
+<p>A cell in a table usually has 1 value, a sparkline requires a sequence of values. using DTHelper we can create a listcolumn in our data.table based on previous week_no:</p>
+<pre class="r"><code># Order the data by week
+x &lt;- x[order(week_no, decreasing = FALSE)]
+
+# Use the DTHelper lag function
+# Note the additional list() when using a by reference call
+x[, col1_lag := list(dt_list_of_lags(col1, lags_x = c(0:5))), by = grp]
+x[, col1_lagb := list(dt_list_of_lags(col1, lags_x = c(0:3))), by = grp]
+x[, col_stack_lag := list(dt_list_of_lags_2(col1, col2, lags_x = c(0:4))), by = grp]
+
+head(x)</code></pre>
+<pre><code>##    week_no col1 col2 col3 grp col1_lag col1_lagb col_stack_lag
+## 1:       1    1   21    7   a        1         1          1:21
+## 2:       1   11   31   26   b       11        11         11:31
+## 3:       1   21   41   23   c       21        21         21:41
+## 4:       2    2   22   28   a      2,1       2,1     2:22,1:21
+## 5:       2   12   32    9   b    12,11     12,11   12:32,11:31
+## 6:       2   22   42   22   c    22,21     22,21   22:42,21:41</code></pre>
+<p>Now create a datatable with a sparkline:</p>
+<iframe seamless src="../dthelperd1/index.html" width="100%" height="1000">
+</iframe>
+</div>
+<div id="adding-trend-arrows-and-basic-tooltips" class="section level2">
+<h2>Adding Trend Arrows and Basic Tooltips</h2>
+<p>DTHelper helps you add trend arrows to your DT datatables. Example:</p>
+<pre class="r"><code># create a data set using data.table
+x &lt;- data.table(week_no = c(rep(c(1:10),3)), 
+                col1 = c(1:30), 
+                col2 = c(21:50),
+                col3 = round(runif(30, min = 0, max = 30),0),
+                grp = c(rep(&quot;a&quot;,10), rep(&quot;b&quot;,10), rep(&quot;c&quot;,10)))
+
+# create a trend column based on lagged values
+x &lt;- x[order(week_no, decreasing = FALSE)]
+x[, col3_trend := least_squares_over_lags(col3, c(0:4)), by = grp]
+x[, col3_trend_arrow := &quot;duntmatter&quot;]
+x[, col3_tooltip := ifelse(col3_trend &lt; 0, &quot;bad&quot;, &quot;good&quot;)]
+
+d2 &lt;- DT::datatable(x,
+                    rownames = FALSE,
+                    options = list(dom = &quot;t&quot;,
+                                   paging = FALSE)) %&gt;% 
+  formatArrow(columns = &quot;col3_trend_arrow&quot;, valueColumns = &quot;col3_trend&quot;, titleColumn = &quot;col3_tooltip&quot;) %&gt;% 
+  formatTooltip(columns = &quot;col1&quot;, titleColumn = &quot;col3_tooltip&quot;)</code></pre>
+<iframe seamless src="../dthelperd2/index.html" width="100%" height="1000">
+</iframe>
+</div>
+<div id="some-generic-formatting-options" class="section level2">
+<h2>Some generic formatting options</h2>
+<p>DTHelper has a generic column formatter. Example:</p>
+<pre class="r"><code># create a data set using data.table
+x &lt;- data.table(week_no = c(1:10), 
+                col1 = c(1:10), 
+                col2 = c(21:30),
+                col3 = round(runif(10, min = 0, max = 30),0),
+                grp = c(rep(&quot;a&quot;,10)))
+
+d3 &lt;- DT::datatable(x,
+                    rownames = FALSE,
+                    filter = &quot;top&quot;,
+                    options = list(dom = &quot;t&quot;,
+                                   paging = FALSE)) %&gt;% 
+  formatColDef(c(&quot;col1&quot;), orderable = FALSE) %&gt;% 
+  formatColDef(c(&quot;col2&quot;), visible = FALSE) %&gt;% 
+  formatColDef(c(&quot;week_no&quot;), searchable = FALSE, width = &quot;20%&quot;)</code></pre>
+<iframe seamless src="../dthelperd3/index.html" width="100%" height="1000">
+</iframe>
+</div>
+<div id="adding-split-bar-conditional-format" class="section level2">
+<h2>Adding Split Bar Conditional Format</h2>
+<p>DTHelper provides extra conditional formatting functions that can be used within the existing DT functions. Example:</p>
+<pre class="r"><code># create a data set using data.table
+x &lt;- data.table(week_no = c(rep(c(1:10),2)), 
+                col1 = c(1:20), 
+                col2 = c(21:40),
+                col3 = round(runif(20, min = 0, max = 20),0),
+                grp = c(rep(&quot;a&quot;,10), rep(&quot;b&quot;,10)))
+
+# Create a datatable with some conditional formatting
+d4 &lt;- 
+  DT::datatable(x,
+                rownames = FALSE,
+                options = list(
+                  paging = FALSE)
+                ) %&gt;% 
+  DT::formatStyle(c(&quot;week_no&quot;), 
+                  valueColumns = &quot;col1&quot;,
+                  background = styleColorBarStack(x$col1, &quot;#FFC9C9&quot;, &quot;#7CEBB2&quot;, min_range = min(x$col1), max_range = max(x$col1)),
+                  backgroundSize = &#39;98% 78%&#39;,
+                  backgroundRepeat = &#39;no-repeat&#39;,
+                  backgroundPosition = &#39;center&#39;)</code></pre>
+<iframe seamless src="../dthelperd4/index.html" width="100%" height="1000">
+</iframe>
+</div>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="/post/r-getting-more-from-datatables-dt/"><span
+      aria-hidden="true">&larr;</span> R Getting More From datatables DT</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Christopher Hopkinson &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="/js/jquery-1.12.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

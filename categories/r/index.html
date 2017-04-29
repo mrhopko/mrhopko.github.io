@@ -120,6 +120,62 @@
   
   
   <div>
+    <h2><a href="/post/dthelper/">DTHelper</a></h2>
+    <div class="article-style">
+      
+      DTHelper helps you</p>
+
+<p>Add Sparklines to DT datatables
+Add Trend Arrows to DT datatables
+Add basic tooltips
+Add split bar conditional formatting
+Do a few other little things</p>
+
+<p>Adding Sparklines
+First you need to first install.packages(“sparkline”).
+DTHelper helps you embed sparklines into you datatables. Example:
+library(data.table)
+library(DT)
+library(DTHelper)
+library(sparkline)</p>
+
+<h1 id="create-a-data-set-using-data-table">create a data set using data.table</h1>
+
+<p>x &lt;- data.table(week_no = c(rep(c(1:10),3)), col1 = c(1:30), col2 = c(21:50),
+col3 = round(runif(30, min = 0, max = 30),0),
+grp = c(rep(&quot;a&quot;,10), rep(&quot;b&quot;,10), rep(&quot;c&quot;,10)))
+head(x)</p>
+
+<h2 id="week-no-col1-col2-col3-grp">week_no col1 col2 col3 grp</h2>
+
+<h2 id="1-1-1-21-7-a">1: 1 1 21 7 a</h2>
+
+<h2 id="2-2-2-22-28-a">2: 2 2 22 28 a</h2>
+
+<h2 id="3-3-3-23-1-a">3: 3 3 23 1 a</h2>
+
+<h2 id="4-4-4-24-7-a">4: 4 4 24 7 a</h2>
+
+<h2 id="5-5-5-25-8-a">5: 5 5 25 8 a</h2>
+
+<h2 id="6-6-6-26-12-a">6: 6 6 26 12 a</h2>
+
+<p>A cell in a table usually has 1 value, a sparkline requires a sequence of values.
+      
+    </div>
+  </div>
+  
+  <div>
+    <h2><a href="/post/r-getting-more-from-datatables-dt/">R Getting More From datatables DT</a></h2>
+    <div class="article-style">
+      
+      Introduction
+The DT package is an R package built on top of the javascript library datatables by the RStudio team. They can be used in RMarkdown and Shiny to create interactive tables. If you want to learn the basics, there are plenty of tutorials. The DT R package allows us to write R code to generate the HTML widgets. The package manages to surface much of the functionality of the javascript library and, with a little additional javascript, can be extended further.
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/2015-07-23-r-rmarkdown/">Hello R Markdown</a></h2>
     <div class="article-style">
       
