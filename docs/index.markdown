@@ -5,7 +5,17 @@
 layout: home
 ---
 
+*These pages represent my personal views and not the views of my employer.*
+
 posts:
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
 
 [about](/about/)
 
